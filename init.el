@@ -1,3 +1,12 @@
+;; Emacs Config
+
+;; Current file setup:
+;; - initial setup
+;; - look and feel
+;; - file management
+;; - language config
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -14,6 +23,7 @@
  )
 
 (setq inhibit-startup-message t)
+(setq backup-directory-alist '((".*" . "~/Homebase/.backups/emacs")))
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -168,22 +178,34 @@
   :config (counsel-projectile-mode))
 
 (use-package magit)
+
+(use-package org)
   
-; Clojure Related Configuration
+;; Clojure Related Configuration
 
-;;(use-package clojure-mode)
+(use-package clojure-mode)
 
-;;(use-package lsp-mode)
+(use-package cider)
 
-;;(use-package cider)
+(use-package lsp-treemacs)
 
-;;(use-package lsp-treemacs)
+(use-package flycheck)
 
-;;(use-package flycheck)
+(use-package company)
 
-;;(use-package company)
+(use-package lsp-mode
+  :hook ((clojure-mode . lsp)
+	 (clojurescript-mode . lsp)
+	 (clojurec-mode . lsp))
+  :commands lsp
+  :config
+  (setq ; recommended
+   gc-cons-threshold (* 100 1024 1024)
+   read-process-output-max (* 1024 1024))
 
-;;(add-hook 'clojure-mode-hook 'lsp)
-;;(add-hook 'clojurescript-mode-hook 'lsp)
-;;(add-hook 'clojurec-mode-hook 'lsp)
+  (setq ; optional
+   lsp-lens-enable t
+   lsp-semantic-tokens-enable t 
+   cljr-add-ns-to-blank-clj-files nil
+   cider-eldoc-display-for-symbol-at-point nil))
 
